@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MediaType {
+  MOVIE
+  TV
+}
+
+enum ListType {
+  FAVORITE
+  WATCH_LATER
+}
+
+model User {
+  id            String          @id @default(uuid())
+  name          String
+  email         String          @unique
+  passwordHash  String
+  preferredLang String          @default("pt-BR")
+  region        String          @default("BR")
+  savedItems    SavedMedia[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model SavedMedia {
+  id          String    @id @default(uuid())
+  userId      String
+  tmdbId      Int
+  mediaType   MediaType @default(MOVIE)
+  listType    ListType
+  title       String
+  posterPath  String?
+  voteAverage Float?
+  releaseYear String?
+  createdAt   DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, tmdbId, mediaType, listType])
+  @@index([userId, listType])
+}
