@@ -2,6 +2,7 @@
   <h1 align="center">🎬 MATRIX FILMES</h1>
   <p align="center">
     <b>Plataforma de Filmes & Séries</b>
+    <img src = "https://i.imgur.com/Re9W9Xt.jpeg" />
   </p>
 
   <p align="center">
